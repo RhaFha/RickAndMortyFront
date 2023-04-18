@@ -1,6 +1,7 @@
-import { ThemeOptions } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-export const themeOptions: ThemeOptions = {
+
+export const themeOptions = createTheme({
     palette: {
         mode: 'light',
         primary: {
@@ -23,4 +24,4 @@ export const themeOptions: ThemeOptions = {
     typography: {
         fontFamily: 'Roboto',
     },
-};
+});

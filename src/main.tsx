@@ -12,12 +12,13 @@ import {ThemeProvider } from '@mui/material/styles';
 import { themeOptions } from './utils/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 
+import Home from './projects/pages/Home';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Home />,
   },
 ]);
 
