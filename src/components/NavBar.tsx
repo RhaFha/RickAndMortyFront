@@ -113,9 +113,10 @@ function NavBar() {
             {pages.map((page) => (
               <Button
               sx={{ my: 2, color: 'white', display: 'block', padding: 0 }}
+              key={page.name}
               >
               <NavLink
-                key={page.name}
+                
                 onClick={handleCloseNavMenu}
                 to={page.href}
                 style={({ isActive }) => {
@@ -128,7 +129,6 @@ function NavBar() {
                     borderRadius: '4px',
                   };
                 }}
-              //style={{ textDecoration: 'none', color: '#ffffff', backgroundColor: {({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : "" } }}
               >
                 {page.name}
               </NavLink>
