@@ -33,11 +33,11 @@ const router = createBrowserRouter([
         element: <Personajes />
       },
       {
-        path: "/Lugares",
+        path: "/Lugar",
         element: <Lugares />
       },
       {
-        path: "/Episodios",
+        path: "/Episodio",
         element: <Episodios />
       },
     ]

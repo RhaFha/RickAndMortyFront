@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useTheme } from '@mui/material';
+import {Link, NavLink} from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,48 +9,36 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../../public/img/logo-2.png';
-import { width } from '@mui/system';
 
-const pages = ['Personajes', 'Lugares', 'Episodios'];
-const settings = ['Personajes', 'Lugares', 'Episodios'];
+const pages = [{name: 'Personajes', href: '/personaje'}, {name: 'Lugares', href: '/lugar'}, {name:'Episodios', href: '/episodio'}];
 
 function NavBar() {
+  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, width: '40px' }} component="a" href='/' >
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, width: '40px' }} component={Link} to='/' >
             <img src={Logo} alt='logo' style={{ width: '100%'}} />
           </Box>
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -92,13 +82,13 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} >
+                    <Typography  textAlign="center" component={Link} to={page.href} sx={{ textDecoration: 'none', color: theme.palette.text.primary }} >{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, width: '60px' }} component="a" href='/' >
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, width: '60px' }} component={Link} to='/' >
             <img src={Logo} alt='logo' style={{ width: '100%'}} />
           </Box>
           <Typography
@@ -122,11 +112,26 @@ function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: 'white', display: 'block', padding: 0 }}
               >
-                {page}
+              <NavLink
+                key={page.name}
+                onClick={handleCloseNavMenu}
+                to={page.href}
+                style={({ isActive }) => {
+                  return {
+                    fontWeight: isActive ? "bold" : "",
+                    color: "#FFFFFF",
+                    textDecoration: 'none',
+                    backgroundColor: isActive && theme.palette.primary.dark,
+                    padding: '6px',
+                    borderRadius: '4px',
+                  };
+                }}
+              //style={{ textDecoration: 'none', color: '#ffffff', backgroundColor: {({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : "" } }}
+              >
+                {page.name}
+              </NavLink>
               </Button>
             ))}
           </Box>
