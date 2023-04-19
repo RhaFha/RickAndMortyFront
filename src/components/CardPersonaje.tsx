@@ -2,7 +2,7 @@ import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from 
 import Character from "../projects/classes/Character/Character";
 
 const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
-    const {id, name, image} = personaje;
+    const {id, name, image, status, species} = personaje;
     return ( 
         <Grid item xs={12} md={6} lg={4}>
                 <Card sx={{ display: 'flex' }}>
@@ -14,8 +14,11 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
                         <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h5">
-                            Live From Space
+                        <Typography component="div" variant="h6">
+                            {name}
+                        </Typography>
+                        <Typography component="div" variant="p">
+                            {`${status} - ${species}`}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary" component="div">
                             Mac Miller
