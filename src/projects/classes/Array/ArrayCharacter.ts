@@ -8,15 +8,22 @@ const instancia = new RickAndMortyClient('/character').getAxiosInstance();
 export default class ArrayCharacters {
     info: InfoDTO;
     results: Array<Character>;
+    error?: string;
 
     constructor(
         ArrayCharacters?: ArrayCharacters,
+        _error?: string,
         _info: InfoDTO = new InfoDTO(),
-        _results: Array<Character> = []
+        _results: Array<Character> = [],
+
     ) {
         if (ArrayCharacters) {
             this.info = ArrayCharacters.info;
             this.results = ArrayCharacters.results;
+        } else if (_error) {
+            this.info = _info;
+            this.results = _results;
+            this.error = _error;
         } else {
             this.info = _info;
             this.results = _results;
@@ -24,15 +31,10 @@ export default class ArrayCharacters {
     }
 
     public static async getCharacters(params: FindPageCharacterDTO = { page: 1 }) {
-        try {
-            const respuesta = await instancia.get('', {
-                params
-            });
+        const respuesta = await instancia.get('', {
+            params
+        }); console.log(respuesta)
 
-            return new ArrayCharacters(respuesta.data);
-
-        } catch (error) {
-            console.log(error);
-        }
+        return new ArrayCharacters(respuesta.data);
     }
 }
