@@ -1,8 +1,9 @@
 import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from "@mui/material";
 import Character from "../projects/classes/Character/Character";
+import { STATUS_CHARACTER } from "../utils/constans";
 
 const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
-    const {id, name, image, status, species} = personaje;
+    const {id, name, image, status, species, location} = personaje;
     return ( 
         <Grid item xs={12} lg={6} style={{ padding: 0, paddingTop: '.05rem', paddingBottom: '0.5rem'  }}>
                 <Card sx={{ display: 'flex', width: '560px', marginX: 'auto' }} style={{ backgroundColor: '#FFF' }}>
@@ -17,11 +18,23 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
                         <Typography component="div" variant="h6">
                             {name}
                         </Typography>
-                        <Typography component="div" variant="body1">
-                            {`${status} - ${species}`}
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
+                            <Box sx={{ width: '10px', height: '10px', bgcolor: STATUS_CHARACTER[`${status}`], borderRadius: '50%'}} />
+                            <Typography component="div" variant="body1">
+                                {`${status} - ${species}`}
+                            </Typography>
+                        </Box>
+                        <Typography variant="subtitle1" color="text.secondary" component="div" mt={2} sx={{ fontWeight: 700}}>
+                            Ultima localización conocida:
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                            Mac Miller
+                        <Typography variant="body1" color="text.secondary" >
+                            {location.name}
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div" mt={2} sx={{ fontWeight: 700}}>
+                            Visto por primera vez:
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" >
+                            {location.name}
                         </Typography>
                         </CardContent>
                     </Box>

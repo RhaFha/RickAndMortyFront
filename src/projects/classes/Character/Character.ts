@@ -43,6 +43,8 @@ class Character {
         this.url = _url;
         this.created = _created;
     }
+
+
 }
 
 export default Character;
