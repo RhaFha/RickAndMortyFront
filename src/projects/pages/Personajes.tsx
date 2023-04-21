@@ -30,7 +30,7 @@ const Personajes = () => {
         }
 
         try{
-            const arrayPersonajes = await ArrayCharacters.getCharacters(params);console.log(arrayPersonajes)
+            const arrayPersonajes = await ArrayCharacters.getCharacters(params);
             setPersonajes(arrayPersonajes);
             setCountPage(arrayPersonajes.info.pages);
         }catch(error){console.log(error);

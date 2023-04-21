@@ -22,13 +22,6 @@ export class Location {
         this.characters = _characters;
     }
 
-    public static async getFirstLocation(params: FindPageCharacterDTO = { page: 1 }) {
-        const respuesta = await instancia.get('', {
-            params
-        }); console.log(respuesta)
-
-        return new ArrayCharacters(respuesta.data);
-    }
 }
 
 export default Location;

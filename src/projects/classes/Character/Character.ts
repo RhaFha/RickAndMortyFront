@@ -1,5 +1,6 @@
 import OriginDTO from "./DTOs/OriginDTO";
 import LocationDTO from "./DTOs/LocationDTO";
+import Episode from "../Episode/Episode";
 
 class Character {
 
@@ -15,6 +16,7 @@ class Character {
     episode: Array<string>;
     url: string;
     created: string;
+    seen: Episode;
 
     constructor(
         _id: number,
@@ -42,6 +44,12 @@ class Character {
         this.episode = _episode;
         this.url = _url;
         this.created = _created;
+        this.getEpisode();
+    }
+
+    private async getEpisode() {
+        const seenEpisode = await Episode.getFirstLocation();console.log(seenEpisode);
+        this.seen = new Episode();
     }
 
 
