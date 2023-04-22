@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback} from 'react';
-import {Container, Paper, Box, Grid, TextField, Typography} from '@mui/material';
+import {Container, Paper, Box, Grid, TextField, Typography, CircularProgress} from '@mui/material';
 import ArrayCharacters from '../classes/Array/ArrayCharacter';
 
 
@@ -18,6 +18,7 @@ const Personajes = () => {
     const [submit, setSubmit] = useState<boolean>(false);
     const [ search, setSearch] = useState<string>('');
     const [ error, setError] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const fetchPersonajes = async() => {
         const params: FindPageCharacterDTO = { page };
         if(page > 0){
@@ -31,6 +32,7 @@ const Personajes = () => {
         }
 
         try{
+            setLoading(true);
             const arrayPersonajes = await ArrayCharacters.getCharacters(params);
 
             if(arrayPersonajes.results.length){
@@ -65,7 +67,7 @@ const Personajes = () => {
             setPersonajes(arrayPersonajes);
             setCountPage(arrayPersonajes.info.pages);
             
-        }catch(error){console.log(error);
+        }catch(error){
             if (error.response) {
                 // El servidor respondió con un estado diferente de 200
                 console.log(error.response.data);
@@ -83,7 +85,9 @@ const Personajes = () => {
                 // Algo sucedió en la configuración de la solicitud que provocó que se lanzara un error
                 console.log('Error', error.message);
               }
-        } 
+        } finally{
+            setLoading(false);
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -103,7 +107,6 @@ const Personajes = () => {
         fetchPersonajes();
     }, [page, submit])
 
-    
     return ( 
         <>
         <Container sx={{ marginTop: '1rem', maxWidth: { xs: '600px', lg: '1200px'}, marginX: 'auto' }} style={{ padding: 0 }} >
@@ -125,7 +128,10 @@ const Personajes = () => {
                     <Grid container sx={{marginX: 'auto', maxWidth: { xs: '600px', lg: '1200px'}, marginTop: 3}} >
 
                         
-                        {
+                        {   loading ? <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', marginY: '3rem' }}>
+                                        <CircularProgress />
+                                    </Box>
+                            :
                             personajes.results.map( personaje => <CardPersonaje key={personaje.id}  personaje={personaje} />)
                         }
 

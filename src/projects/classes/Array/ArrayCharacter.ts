@@ -1,6 +1,5 @@
 import InfoDTO from "./DTOs/InfoDTO";
 import Character from "../Character/Character";
-import Episode from "../Episode/Episode";
 import FindPageCharacterDTO from "./DTOs/FindPageCharacterDTO";
 import RickAndMortyClient from "../RickAndMortyClient";
 
@@ -35,7 +34,6 @@ export default class ArrayCharacters {
         const respuesta = await instancia.get('', {
             params
         });
-        console.log(respuesta);
         return new ArrayCharacters(respuesta.data);
     }
 }
