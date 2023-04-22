@@ -1,6 +1,7 @@
 import OriginDTO from "./DTOs/OriginDTO";
 import LocationDTO from "./DTOs/LocationDTO";
 import Episode from "../Episode/Episode";
+import { AxiosResponse } from "axios";
 
 class Character {
 
@@ -16,7 +17,7 @@ class Character {
     episode: Array<string>;
     url: string;
     created: string;
-    seen: Episode;
+    seen?: Episode;
 
     constructor(
         _id: number,
@@ -30,7 +31,8 @@ class Character {
         _image: string,
         _episode: Array<string>,
         _url: string,
-        _created: string
+        _created: string,
+        _seen?: Episode,
     ) {
         this.id = _id;
         this.name = _name;
@@ -44,12 +46,16 @@ class Character {
         this.episode = _episode;
         this.url = _url;
         this.created = _created;
-        this.getEpisode();
+
+        if(_seen){
+            this.seen = _seen;
+        }
+        
     }
 
-    private async getEpisode() {
-        const seenEpisode = await Episode.getFirstLocation();console.log(seenEpisode);
-        this.seen = new Episode();
+    public static async getEpisode(idEpisode: number) {
+        const seenEpisode: Episode = await Episode.getFirstLocation(idEpisode);
+        return seenEpisode;
     }
 
 

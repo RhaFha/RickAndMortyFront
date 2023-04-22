@@ -7,6 +7,7 @@ import CardPersonaje from '../../components/CardPersonaje';
 import Paginacion from '../../components/Paginacion';
 import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
 import { AxiosError } from 'axios';
+import Character from '../classes/Character/Character';
 
 const Personajes = () => {
 
@@ -33,10 +34,37 @@ const Personajes = () => {
             const arrayPersonajes = await ArrayCharacters.getCharacters(params);
 
             if(arrayPersonajes.results.length){
-                
+                const getEpisodio = await Promise.all( arrayPersonajes.results.map( p => {
+                    const partes = p.episode[0].split('/');
+                    return Character.getEpisode(Number(partes[partes.length -1]));
+                }) );
+
+                const newArray = arrayPersonajes.results.map( (p, i) => {
+                    const episodePersonaje = new Character(
+                        p.id,
+                        p.name,
+                        p.status,
+                        p.species,
+                        p.type,
+                        p.gender,
+                        p.origin,
+                        p.location,
+                        p.image,
+                        p.episode,
+                        p.url,
+                        p.created,
+                        getEpisodio[i],
+                    );
+
+                    return episodePersonaje;
+                });
+
+                arrayPersonajes.results = newArray;
             }
+
             setPersonajes(arrayPersonajes);
             setCountPage(arrayPersonajes.info.pages);
+            
         }catch(error){console.log(error);
             if (error.response) {
                 // El servidor respondió con un estado diferente de 200
