@@ -15,6 +15,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Layout from './components/Layout';
 import Home from './projects/pages/Home';
 import Personajes from './projects/pages/Personajes';
+import PersonajeDetalle from './projects/pages/PersonajeDetalle';
 import Lugares from './projects/pages/Lugares';
 import Episodios from './projects/pages/Episodios';
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/Personaje",
         element: <Personajes />
+      },
+      {
+        path: "/Personaje/:idPersonaje",
+        element: <PersonajeDetalle />
       },
       {
         path: "/Lugar",

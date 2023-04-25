@@ -1,8 +1,9 @@
+import RickAndMortyClient from "../RickAndMortyClient";
 import OriginDTO from "./DTOs/OriginDTO";
 import LocationDTO from "./DTOs/LocationDTO";
 import Episode from "../Episode/Episode";
-import { AxiosResponse } from "axios";
 
+const instancia = new RickAndMortyClient('/character').getAxiosInstance();
 class Character {
 
     id: number;
@@ -47,15 +48,20 @@ class Character {
         this.url = _url;
         this.created = _created;
 
-        if(_seen){
+        if (_seen) {
             this.seen = _seen;
         }
-        
+
     }
 
     public static async getEpisode(idEpisode: number) {
         const seenEpisode: Episode = await Episode.getFirstLocation(idEpisode);
         return seenEpisode;
+    }
+
+    public static async getCharacter(idCharacter: number) {
+        const respuesta = await instancia.get(`/${idCharacter}`);
+        return respuesta.data;
     }
 
 
