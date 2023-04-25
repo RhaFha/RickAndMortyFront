@@ -32,6 +32,8 @@ export class Episode {
         const respuesta = await instancia.get(`/${idEpisode}`);
         return respuesta.data;
     }
+
+
 }
- 
+
 export default Episode;

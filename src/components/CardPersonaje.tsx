@@ -11,7 +11,7 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
                         component="img"
                         sx={{ width: 200 }}
                         image={image}
-                        alt="Live from space album cover"
+                        alt={name}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
                         <CardContent sx={{ flex: '1 0 auto', paddingY: '.5rem' }}>
