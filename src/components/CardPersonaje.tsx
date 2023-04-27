@@ -1,12 +1,15 @@
-import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from "@mui/material";
+import { useState } from 'react';
+import { Grid, Card, Box, CardContent, Typography, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
 import styles from '../styles/Link.module.css';
+import defaultImage from '../../public/img/imageDefault.jpeg';
 
 const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}) => {
     const {id, name, image, status, species, location, seen } = personaje;
     const idLocation = location.url.split('/');
+    const [ isImageLoaded, setIsImageLoaded ] = useState<boolean>(false);
     let lg = 6;
 
     if(lugar){
@@ -18,8 +21,10 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}
                     <CardMedia
                         component="img"
                         sx={{ width: 200 }}
-                        image={image}
+                        image={isImageLoaded ? image : defaultImage}
                         alt={name}
+                        onError={() => setIsImageLoaded(false)}
+                        onLoad={() => setIsImageLoaded(true)}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
                         <CardContent sx={{ flex: '1 0 auto', paddingY: '.5rem' }}>
