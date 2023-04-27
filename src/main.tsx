@@ -19,6 +19,7 @@ import PersonajeDetalle from './projects/pages/PersonajeDetalle';
 import Lugares from './projects/pages/Lugares';
 import LugarDetalle from './projects/pages/LugarDetalle';
 import Episodios from './projects/pages/Episodios';
+import EpisodioDetalle from './projects/pages/EpisodioDetalle';
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/Episodio",
         element: <Episodios />
+      },
+      {
+        path: "/Episodio/:idEpisodio",
+        element: <EpisodioDetalle />
       },
     ]
   },
