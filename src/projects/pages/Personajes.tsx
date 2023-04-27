@@ -51,10 +51,10 @@ const Personajes = () => {
                         p.origin,
                         p.location,
                         p.image,
-                        p.episode,
+                        p.episode, 
                         p.url,
                         p.created,
-                        getEpisodio[i],
+                        [getEpisodio[i]],
                     );
 
                     return episodePersonaje;

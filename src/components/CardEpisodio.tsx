@@ -8,10 +8,20 @@ import Grid from '@mui/material/Grid';
 
 import Episode from '../projects/classes/Episode/Episode';
 
-const CardEpisodio: React.FC<IPropsEpisodio> = ({episodio}) => {
+const CardEpisodio: React.FC<IPropsEpisodio> = ({episodio, character = false}) => {
     const {id, name, air_date, episode, characters, url, created} = episodio;
+    let sm = 12;
+    let md = 6;
+    let lg = 4;
+
+    if(character){
+        sm = 12;
+        md = 12;
+        lg = 12;
+    }
+
     return(
-        <Grid item xs ={12} sm={12} md={6} lg={4} padding={1}>
+        <Grid item xs ={12} sm={sm} md={md} lg={lg} padding={1}>
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
                     <Typography variant="h5" component="div" sx={{ height: 65 }}>
@@ -33,4 +43,5 @@ export default CardEpisodio;
 
 interface IPropsEpisodio {
     episodio: Episode;
+    character?: boolean;
 }

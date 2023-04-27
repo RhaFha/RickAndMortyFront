@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Paper, Box, Typography } from '@mui/material';
+import { Container, Paper, Box, Typography, Grid, CircularProgress } from '@mui/material';
 
 import Character from '../classes/Character/Character';
 import { STATUS_CHARACTER } from '../../utils/constans';
-
+import CardEpisodio from '../../components/CardEpisodio';
 
 const PersonajeDetalle = () => {
     const {idPersonaje} = useParams();
     const [ personaje, setPersonaje ] = useState<Character | {}>({});
+    const [ loading, setLoading ] = useState<boolean>( false );
+    const [ error , setError ] = useState<boolean>(false);
 
     const fetchData = async () => {
-        const character = await Character.getCharacter(parseInt(idPersonaje));
-        setPersonaje(character);
+        try{
+            setLoading(true);
+            const character = await Character.getCharacter(parseInt(idPersonaje));
+            setPersonaje(character);
+        }catch (error){
+            console.log(error);
+            setError(true);
+        }finally{
+            setLoading(false);
+        }
     }
 
     useEffect( () => {
@@ -24,13 +34,13 @@ const PersonajeDetalle = () => {
     },[])
 
 
-    if (personaje instanceof Character) {
+    if (personaje instanceof Character && !loading && !error) {
         return ( 
-            <Container maxWidth={'sm'} sx={{ bgcolor: 'red', mt: 2 }} style={{ padding: '4px'}}>
-                <Paper elevation={3} sx={{ height: '300px', overflow: 'hidden', display: 'flex' }} style={{ position: 'relative' }}>
-                    <Box sx={{ paddingX: '10px', bgcolor: STATUS_CHARACTER[`${personaje.status}`]}} style={{ position: 'absolute', top: 4, left: 4, borderRadius: '5px' }} >
+            <Container maxWidth={'sm'} sx={{mt: 2 }} style={{ padding: '0px'}}>
+                <Paper elevation={16} sx={{ height: '300px', overflow: 'hidden', display: 'flex' }} style={{ position: 'relative' }}>
+                    <Paper elevation={16} sx={{ paddingX: '10px', bgcolor: STATUS_CHARACTER[`${personaje.status}`]}} style={{ position: 'absolute', top: 4, left: 4, borderRadius: '10px' }} >
                         <Typography variant='body1' component='h6' sx={{ color: '#fff', fontWeight: 700}} >{`${personaje.status} - ${personaje.species}`}</Typography>
-                    </Box>
+                    </Paper>
                     <img src={personaje.image} alt={personaje.name} style={{ width: '250px' }} />
                     <Box sx={{ display: 'flex', flexDirection: 'column', padding: 1}}>
                         <Typography variant='h5' component='h1' sx={{ fontWeight: 900}} >{personaje.name}</Typography>
@@ -53,12 +63,29 @@ const PersonajeDetalle = () => {
 
                     </Box>
                 </Paper>
+
+                <Grid container sx={{marginX: 'auto', maxWidth: { xs: '600px', lg: '1200px'}, marginTop: 3}} >
+
+                        
+                        {   
+                            personaje.seen.map( episodio => <CardEpisodio key={episodio.id} episodio={episodio} character={true} />)
+                        }
+
+                        
+                </Grid>
+
             </Container>
         )
+    }else if(!loading && error){
+    return(<Container maxWidth={'sm'}  sx={{mt: 2, height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }} style={{ padding: '0px'}}>
+                <Typography variant='h6'>Sucedio un error durante la carga de datos {idPersonaje}</Typography>
+            </Container>);
     }
 
     return(
-        <h1>Hola</h1>
+        <Container maxWidth={'sm'}  sx={{mt: 2, height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }} style={{ padding: '0px'}}>
+            <CircularProgress size={100} />
+        </Container>
     )
 }
 

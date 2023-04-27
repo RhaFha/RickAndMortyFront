@@ -2,7 +2,7 @@ import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from 
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
 
-const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {console.log(personaje)
+const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
     const {id, name, image, status, species, location, seen } = personaje;
     return ( 
         <Grid item xs={12} lg={6} style={{ padding: 0, paddingTop: '.05rem', paddingBottom: '0.5rem'  }}>
@@ -34,7 +34,7 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {console.l
                             Visto por primera vez:
                         </Typography>
                         <Typography variant="body1" color="text.secondary" >
-                            {seen.name}
+                            {seen[0].name}
                         </Typography>
                         </CardContent>
                     </Box>

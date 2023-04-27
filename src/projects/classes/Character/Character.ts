@@ -18,7 +18,7 @@ class Character {
     episode: Array<string>;
     url: string;
     created: string;
-    seen?: Episode;
+    seen?: Array<Episode>;
 
     constructor(
         _id: number = 0,
@@ -27,36 +27,36 @@ class Character {
         _species: string = "",
         _type: string = "",
         _gender: string = "",
-        _origin: OriginDTO = {name: "", url: ""},
-        _location: LocationDTO = {name: "", url: ""},
+        _origin: OriginDTO = { name: "", url: "" },
+        _location: LocationDTO = { name: "", url: "" },
         _image: string = "",
         _episode: Array<string> = [],
         _url: string = "",
         _created: string = "",
-        _seen?: Episode,
+        _seen?: Array<Episode>,
     ) {
-            this.id = _id;
-            this.name = _name;
-            this.status = _status;
-            this.species = _species;
-            this.type = _type;
-            this.gender = _gender;
-            this.origin = _origin;
-            this.location = _location;
-            this.image = _image;
-            this.episode = _episode;
-            this.url = _url;
-            this.created = _created;
+        this.id = _id;
+        this.name = _name;
+        this.status = _status;
+        this.species = _species;
+        this.type = _type;
+        this.gender = _gender;
+        this.origin = _origin;
+        this.location = _location;
+        this.image = _image;
+        this.episode = _episode;
+        this.url = _url;
+        this.created = _created;
 
-            if (_seen) {
-                this.seen = _seen;
-            }
+        if (_seen) {
+            this.seen = _seen;
+        }
 
-        
+
 
     }
 
-    static crearCharacter(character: Character){
+    static async crearCharacter(character: Character) {
         return new Character(
             character.id,
             character.name,
@@ -70,6 +70,7 @@ class Character {
             character.episode,
             character.url,
             character.created,
+            await this.getEpisodes(character.episode),
         )
     }
 
@@ -78,9 +79,24 @@ class Character {
         return seenEpisode;
     }
 
+    public static async getEpisodes(idEpisodes: Array<string>) {
+        let newArray: Array<number> = [];
+
+        newArray = idEpisodes.map(e => {
+            const partes = e.split('/');
+            return Number(partes[partes.length - 1]);
+        })
+
+        const getEpisodios = await Promise.all(newArray.map(num => {
+            return Episode.getFirstLocation(num)
+        }));
+
+        return getEpisodios;
+    }
+
     public static async getCharacter(idCharacter: number) {
         const respuesta = await instancia.get(`/${idCharacter}`);
-        const character: Character = this.crearCharacter(respuesta.data);
+        const character: Character = await this.crearCharacter(respuesta.data);
         return character;
     }
 
