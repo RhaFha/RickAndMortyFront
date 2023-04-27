@@ -28,7 +28,7 @@ export class Episode {
         this.created = _created;
     }
 
-    public static async getFirstLocation(idEpisode: number) {
+    public static async getLocation(idEpisode: number) {
         const respuesta = await instancia.get(`/${idEpisode}`);
         return respuesta.data;
     }
