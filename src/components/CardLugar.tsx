@@ -5,8 +5,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { Link } from 'react-router-dom';
 
 import Location from '../projects/classes/Location/Location';
+import styles from '../styles/Link.module.css';
 
 const CardLugar: React.FC<IPropsLugar> = ({lugar}) => {
     const {id, name, type, dimension, residents, url, created} = lugar;
@@ -32,7 +34,7 @@ const CardLugar: React.FC<IPropsLugar> = ({lugar}) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Learn More</Button>
+                    <Button component={Link} to={`/lugar/${id}`} size="small" className={styles.link}>Leer mas</Button>
                 </CardActions>
             </Card>
         </Grid>

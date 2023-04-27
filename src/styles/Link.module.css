@@ -1,0 +1,11 @@
+.link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: all;
+    transition-duration: 0.3s;
+    color: inherit,
+}
+
+.link:hover {
+    color: orange;
+}

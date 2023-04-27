@@ -5,8 +5,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { Link } from 'react-router-dom';
 
 import Episode from '../projects/classes/Episode/Episode';
+import styles from '../styles/Link.module.css';
 
 const CardEpisodio: React.FC<IPropsEpisodio> = ({episodio, character = false}) => {
     const {id, name, air_date, episode, characters, url, created} = episodio;
@@ -32,7 +34,7 @@ const CardEpisodio: React.FC<IPropsEpisodio> = ({episodio, character = false}) =
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Learn More</Button>
+                <Button component={Link} to={`/episodio/${id}`} size="small" className={styles.link}>Leer mas</Button>
                 </CardActions>
             </Card>
         </Grid>

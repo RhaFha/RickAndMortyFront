@@ -1,9 +1,12 @@
 import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from "@mui/material";
+import { Link } from "react-router-dom";
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
+import styles from '../styles/Link.module.css';
 
 const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}) => {
     const {id, name, image, status, species, location, seen } = personaje;
+    const idLocation = location.url.split('/');
     let lg = 6;
 
     if(lugar){
@@ -20,7 +23,7 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '1' }}>
                         <CardContent sx={{ flex: '1 0 auto', paddingY: '.5rem' }}>
-                        <Typography component="div" variant="h6">
+                        <Typography component={Link} to={`/personaje/${id}`} variant="h6" className={styles.link} sx={{ color: 'inherit', textDecoration: 'none',}} >
                             {name}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
@@ -32,13 +35,21 @@ const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}
                         <Typography variant="subtitle1" color="text.secondary" component="div" mt={2} sx={{ fontWeight: 700}}>
                             Ultima localización conocida:
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" >
-                            {location.name}
-                        </Typography>
+                        {
+                            location.name === 'unknown' ? 
+                            <Typography  variant="body1" color="text.secondary">
+                                {location.name}
+                            </Typography>
+                            :
+                            <Typography component={Link} to={`/lugar/${idLocation[idLocation.length - 1]}`} variant="body1" color="text.secondary" className={styles.link} sx={{ color: 'inherit', textDecoration: 'none',}}>
+                                {location.name}
+                            </Typography>
+                        }
+                        
                         <Typography variant="subtitle1" color="text.secondary" component="div" mt={2} sx={{ fontWeight: 700}}>
                             Visto por primera vez:
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" >
+                        <Typography component={Link} to={`/episodio/${seen[0].id}`} variant="body1" color="text.secondary" className={styles.link} sx={{ color: 'inherit', textDecoration: 'none',}}>
                             {seen[0].name}
                         </Typography>
                         </CardContent>
