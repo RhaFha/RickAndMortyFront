@@ -62,7 +62,7 @@ const Episodios = () => {
             <form onSubmit={(e) => handleSubmit(e)}>
                 <TextField 
                     id="standard-basic" 
-                    label="Nombre del Lugar" 
+                    label="Nombre del Episodio" 
                     variant="outlined" 
                     fullWidth sx={{ boxShadow: 1 }}
                     value={search}

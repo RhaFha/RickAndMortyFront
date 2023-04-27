@@ -113,7 +113,7 @@ const Personajes = () => {
             <form onSubmit={(e) => handleSubmit(e)}>
                 <TextField 
                     id="standard-basic" 
-                    label="Nombre del personaje" 
+                    label="Nombre del Personaje" 
                     variant="outlined" 
                     fullWidth sx={{ boxShadow: 1 }}
                     value={search}
