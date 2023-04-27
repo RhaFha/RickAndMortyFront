@@ -53,14 +53,14 @@ export class Location {
         const personajes = await Promise.all(residents.map(r => {
             const num = r.split('/');
             return Character.getCharacter(parseInt(num[num.length - 1]));
-        })); console.log(personajes);
+        }));
 
         return personajes;
 
     }
 
     public static async getLocation(idLocation: number) {
-        const respuesta = await instancia.get(`/${idLocation}`); console.log(respuesta.data)
+        const respuesta = await instancia.get(`/${idLocation}`);
         return this.crearLocation(respuesta.data);
     }
 
