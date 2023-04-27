@@ -75,7 +75,7 @@ class Character {
     }
 
     public static async getEpisode(idEpisode: number) {
-        const seenEpisode: Episode = await Episode.getLocation(idEpisode);
+        const seenEpisode: Episode = await Episode.getEpisode(idEpisode);
         return seenEpisode;
     }
 
@@ -88,7 +88,7 @@ class Character {
         })
 
         const getEpisodios = await Promise.all(newArray.map(num => {
-            return Episode.getLocation(num)
+            return Episode.getEpisode(num)
         }));
 
         return getEpisodios;
