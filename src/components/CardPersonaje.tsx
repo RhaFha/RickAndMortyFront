@@ -2,7 +2,7 @@ import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from 
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
 
-const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
+const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {console.log(personaje)
     const {id, name, image, status, species, location, seen } = personaje;
     return ( 
         <Grid item xs={12} lg={6} style={{ padding: 0, paddingTop: '.05rem', paddingBottom: '0.5rem'  }}>

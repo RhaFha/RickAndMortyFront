@@ -21,37 +21,56 @@ class Character {
     seen?: Episode;
 
     constructor(
-        _id: number,
-        _name: string,
-        _status: string,
-        _species: string,
-        _type: string,
-        _gender: string,
-        _origin: OriginDTO,
-        _location: LocationDTO,
-        _image: string,
-        _episode: Array<string>,
-        _url: string,
-        _created: string,
+        _id: number = 0,
+        _name: string = "",
+        _status: string = "",
+        _species: string = "",
+        _type: string = "",
+        _gender: string = "",
+        _origin: OriginDTO = {name: "", url: ""},
+        _location: LocationDTO = {name: "", url: ""},
+        _image: string = "",
+        _episode: Array<string> = [],
+        _url: string = "",
+        _created: string = "",
         _seen?: Episode,
     ) {
-        this.id = _id;
-        this.name = _name;
-        this.status = _status;
-        this.species = _species;
-        this.type = _type;
-        this.gender = _gender;
-        this.origin = _origin;
-        this.location = _location;
-        this.image = _image;
-        this.episode = _episode;
-        this.url = _url;
-        this.created = _created;
+            this.id = _id;
+            this.name = _name;
+            this.status = _status;
+            this.species = _species;
+            this.type = _type;
+            this.gender = _gender;
+            this.origin = _origin;
+            this.location = _location;
+            this.image = _image;
+            this.episode = _episode;
+            this.url = _url;
+            this.created = _created;
 
-        if (_seen) {
-            this.seen = _seen;
-        }
+            if (_seen) {
+                this.seen = _seen;
+            }
 
+        
+
+    }
+
+    static crearCharacter(character: Character){
+        return new Character(
+            character.id,
+            character.name,
+            character.status,
+            character.species,
+            character.type,
+            character.gender,
+            character.origin,
+            character.location,
+            character.image,
+            character.episode,
+            character.url,
+            character.created,
+        )
     }
 
     public static async getEpisode(idEpisode: number) {
@@ -61,7 +80,8 @@ class Character {
 
     public static async getCharacter(idCharacter: number) {
         const respuesta = await instancia.get(`/${idCharacter}`);
-        return respuesta.data;
+        const character: Character = this.crearCharacter(respuesta.data);
+        return character;
     }
 
 

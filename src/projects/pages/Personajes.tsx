@@ -6,7 +6,6 @@ import ArrayCharacters from '../classes/Array/ArrayCharacter';
 import CardPersonaje from '../../components/CardPersonaje';
 import Paginacion from '../../components/Paginacion';
 import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
-import { AxiosError } from 'axios';
 import Character from '../classes/Character/Character';
 
 const Personajes = () => {
