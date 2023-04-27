@@ -29,6 +29,8 @@ const PersonajeDetalle = () => {
 
         if(!Number.isNaN(parseInt(idPersonaje))){
             fetchData();
+        }else{
+            setError(true);
         }
 
     },[])
@@ -36,8 +38,8 @@ const PersonajeDetalle = () => {
 
     if (personaje instanceof Character && !loading && !error) {
         return ( 
-            <Container maxWidth={'sm'} sx={{mt: 2 }} style={{ padding: '0px'}}>
-                <Paper elevation={16} sx={{ height: '300px', overflow: 'hidden', display: 'flex' }} style={{ position: 'relative' }}>
+            <Container maxWidth={'sm'} sx={{mt: 3 }} style={{ padding: '0px'}}>
+                <Paper elevation={16} sx={{ height: '300px', overflow: 'hidden', display: 'flex', mb: 3 }} style={{ position: 'relative' }}>
                     <Paper elevation={16} sx={{ paddingX: '10px', bgcolor: STATUS_CHARACTER[`${personaje.status}`]}} style={{ position: 'absolute', top: 4, left: 4, borderRadius: '10px' }} >
                         <Typography variant='body1' component='h6' sx={{ color: '#fff', fontWeight: 700}} >{`${personaje.status} - ${personaje.species}`}</Typography>
                     </Paper>
@@ -63,6 +65,12 @@ const PersonajeDetalle = () => {
 
                     </Box>
                 </Paper>
+
+                <Box>
+                    <Typography variant='h4' component={'h2'}>
+                        Episodios
+                    </Typography>
+                </Box>
 
                 <Grid container sx={{marginX: 'auto', maxWidth: { xs: '600px', lg: '1200px'}, marginTop: 3}} >
 

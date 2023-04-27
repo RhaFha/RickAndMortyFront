@@ -10,6 +10,7 @@ import Location from '../projects/classes/Location/Location';
 
 const CardLugar: React.FC<IPropsLugar> = ({lugar}) => {
     const {id, name, type, dimension, residents, url, created} = lugar;
+    
     return(
         <Grid item xs ={12} sm={12} md={6} lg={4} padding={1}>
             <Card sx={{ minWidth: 275 }}>

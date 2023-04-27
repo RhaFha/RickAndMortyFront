@@ -17,6 +17,7 @@ import Home from './projects/pages/Home';
 import Personajes from './projects/pages/Personajes';
 import PersonajeDetalle from './projects/pages/PersonajeDetalle';
 import Lugares from './projects/pages/Lugares';
+import LugarDetalle from './projects/pages/LugarDetalle';
 import Episodios from './projects/pages/Episodios';
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/Lugar",
         element: <Lugares />
+      },
+      {
+        path: "/Lugar/:idLugar",
+        element: <LugarDetalle />
       },
       {
         path: "/Episodio",

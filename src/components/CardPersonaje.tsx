@@ -2,10 +2,15 @@ import { Grid, Card, Box, CardContent, Typography, IconButton, CardMedia } from 
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
 
-const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje}) => {
+const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}) => {
     const {id, name, image, status, species, location, seen } = personaje;
+    let lg = 6;
+
+    if(lugar){
+       lg= 12;
+    }
     return ( 
-        <Grid item xs={12} lg={6} style={{ padding: 0, paddingTop: '.05rem', paddingBottom: '0.5rem'  }}>
+        <Grid item xs={12} lg={lg} style={{ padding: 0, paddingTop: '.05rem', paddingBottom: '0.5rem'  }}>
                 <Card sx={{ display: 'flex', width: '560px', marginX: 'auto' }} style={{ backgroundColor: '#FFF' }}>
                     <CardMedia
                         component="img"
@@ -48,4 +53,5 @@ export default CardPersonaje;
 
 interface IPropsCardPersonaje{
     personaje: Character;
+    lugar?: boolean;
 }
