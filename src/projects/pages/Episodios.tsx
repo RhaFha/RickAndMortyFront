@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import {Container, Paper, Box, Grid, TextField, Typography, CircularProgress} from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
+
 import ArrayEpisode from '../classes/Array/ArrayEpisode';
 import Paginacion from '../../components/Paginacion';
 import CardEpisodio from '../../components/CardEpisodio';
 import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
 
 const Episodios = () => {
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const [ episodios, setEpisodios ] = useState<ArrayEpisode>(new ArrayEpisode);
     const [ page, setPage ] = useState<number>(1);
     const [ countPage, setCountPage ] = useState<number>(1);
-    const [ name, setName ] = useState<string>('');
-    const [submit, setSubmit] = useState<boolean>(false);
-    const [ search, setSearch] = useState<string>('');
     const [ error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,8 +23,8 @@ const Episodios = () => {
             params.page = 1;
         }
 
-        if(name !== ''){
-            params.name = name;
+        if(searchParams.get('search') ?? '' !== ''){
+            params.name = searchParams.get('search');
         }
         try{
             setLoading(true);
@@ -56,22 +56,16 @@ const Episodios = () => {
         }
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        if(search.trim() === name){
-            return;
-        }
-
-        setName(search.trim());
+        setSearchParams({ search: e.currentTarget.search.value.trim()})
         setPage(1);
-        setSubmit(prev => !prev);
-        
     }
 
     useEffect( ( ) => {
         fetchLugares();
-    },[page, submit])
+    },[page, searchParams])
 
     return ( 
         <>
@@ -79,12 +73,12 @@ const Episodios = () => {
         <Box sx={{ paddingX: '20px' }}>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <TextField 
-                    id="standard-basic" 
+                    id="search"
+                    name="search" 
                     label="Nombre del Episodio" 
                     variant="outlined" 
                     fullWidth sx={{ boxShadow: 1 }}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    defaultValue={searchParams.get('search')}
                 />
             </form>
         </Box>
