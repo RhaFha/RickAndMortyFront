@@ -68,4 +68,12 @@ export default class ArrayCharacters {
 
         return new ArrayCharacters(respuesta.data);
     }
+
+    public static async getCharactersLigth(params: FindPageCharacterDTO = { page: 1 }) {
+        const respuesta = await instancia.get('', {
+            params
+        });
+
+        return new ArrayCharacters(respuesta.data);
+    }
 }
