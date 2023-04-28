@@ -3,6 +3,7 @@ import {Container, Paper, Box, Grid, TextField, Typography, CircularProgress} fr
 import ArrayCharacters from '../classes/Array/ArrayCharacter';
 import { useSearchParams } from 'react-router-dom';
 
+import { ifNaN } from '../../utils/functions';
 import CardPersonaje from '../../components/CardPersonaje';
 import Paginacion from '../../components/Paginacion';
 import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
@@ -10,14 +11,13 @@ import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
 const Personajes = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [ personajes, setPersonajes ] = useState<ArrayCharacters>(new ArrayCharacters);
-    const [ page, setPage ] = useState<number>(1);
     const [ countPage, setCountPage ] = useState<number>(1);
     const [ error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const fetchPersonajes = async() => {
-        const params: FindPageCharacterDTO = { page };
-        if(page > 0){
-            params.page = page;
+        const params: FindPageCharacterDTO = {};
+        if( searchParams.get('page') ?? '' !== ''){
+            params.page = parseInt(searchParams.get('page'));
         }else{
             params.page = 1;
         }
@@ -59,14 +59,18 @@ const Personajes = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        setSearchParams({ search: e.currentTarget.search.value.trim() })
-        setPage(1);
+        setSearchParams({ search: e.currentTarget.search.value.trim(), page: '1' })
         
+    }
+
+    const handleChangePage = (page: number) => {
+        const params = Object.fromEntries([...searchParams]);
+        setSearchParams({ ...params, page: page.toString() });
     }
 
     useEffect( () => {
         fetchPersonajes();
-    }, [page, searchParams])
+    }, [searchParams])
 
     return ( 
         <>
@@ -86,7 +90,7 @@ const Personajes = () => {
         </Box>
         {
             personajes.results.length > 0 ?
-            <Paginacion page={page} setPage={setPage} countPage={countPage} >
+            <Paginacion page={ifNaN(searchParams.get('page'))} setPage={handleChangePage} countPage={countPage} >
                     <Grid container sx={{marginX: 'auto', maxWidth: { xs: '600px', lg: '1200px'}, marginTop: 3}} >
 
                         

@@ -1,4 +1,4 @@
 export default interface FindPageLocationDTO {
-    page: number;
+    page?: number;
     name?: string;
 }

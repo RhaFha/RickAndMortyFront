@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {Container, Paper, Box, Grid, TextField, Typography, CircularProgress} from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
+import { ifNaN } from '../../utils/functions';
 import ArrayLocation from '../classes/Array/ArrayLocation';
 import Paginacion from '../../components/Paginacion';
 import CardLugar from '../../components/CardLugar';
@@ -16,9 +17,9 @@ const Lugares = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const fetchLugares = async() => {
-        const params: FindPageCharacterDTO = { page };
-        if(page > 0){
-            params.page = page;
+        const params: FindPageCharacterDTO = {};
+        if( searchParams.get('page') ?? '' !== ''){
+            params.page = parseInt(searchParams.get('page'));
         }else{
             params.page = 1;
         }
@@ -26,6 +27,7 @@ const Lugares = () => {
         if(searchParams.get('search') ?? '' !== ''){
             params.name = searchParams.get('search');
         }
+
         try{
             setLoading(true);
             const arrayLugares = await ArrayLocation.getLocations(params);
@@ -58,14 +60,18 @@ const Lugares = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setSearchParams({ search: e.currentTarget.search.value.trim()});
-        setPage(1);
+        setSearchParams({ search: e.currentTarget.search.value.trim(), page: '1' })
         
+    }
+
+    const handleChangePage = (page: number) => {
+        const params = Object.fromEntries([...searchParams]);
+        setSearchParams({ ...params, page: page.toString() });
     }
 
     useEffect( ( ) => {
         fetchLugares();
-    },[page, searchParams])
+    },[searchParams])
 
     return ( 
         <>
@@ -84,7 +90,7 @@ const Lugares = () => {
         </Box>
         {
             lugares.results.length > 0 ?
-            <Paginacion page={page} setPage={setPage} countPage={countPage} >
+            <Paginacion page={ifNaN(searchParams.get('page'))} setPage={handleChangePage} countPage={countPage} >
                     <Grid container sx={{marginX: 'auto', maxWidth: { xs: '400px', sm: '400px', md: '800px', lg: '1200px'}, marginTop: 3}} >
 
                         

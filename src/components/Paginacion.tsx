@@ -28,6 +28,6 @@ export default Paginacion;
 interface IPropsPaginacion {
     children: React.ReactNode;
     page: number;
-    setPage: React.Dispatch<SetStateAction<number>>;
+    setPage: (page: number) => void;
     countPage: number;
 }

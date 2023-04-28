@@ -1,4 +1,4 @@
 export default interface FindPageCharacterDTO {
-    page: number;
+    page?: number;
     name?: string;
 }

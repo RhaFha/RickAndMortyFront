@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import {Container, Paper, Box, Grid, TextField, Typography, CircularProgress} from '@mui/material';
+import {Container, Box, Grid, TextField, Typography, CircularProgress} from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
+import { ifNaN } from '../../utils/functions';
 import ArrayEpisode from '../classes/Array/ArrayEpisode';
 import Paginacion from '../../components/Paginacion';
 import CardEpisodio from '../../components/CardEpisodio';
@@ -10,15 +11,14 @@ import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
 const Episodios = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ episodios, setEpisodios ] = useState<ArrayEpisode>(new ArrayEpisode);
-    const [ page, setPage ] = useState<number>(1);
     const [ countPage, setCountPage ] = useState<number>(1);
     const [ error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
     const fetchLugares = async() => {
-        const params: FindPageCharacterDTO = { page };
-        if(page > 0){
-            params.page = page;
+        const params: FindPageCharacterDTO = {};
+        if( searchParams.get('page') ?? '' !== ''){
+            params.page = parseInt(searchParams.get('page'));
         }else{
             params.page = 1;
         }
@@ -26,6 +26,7 @@ const Episodios = () => {
         if(searchParams.get('search') ?? '' !== ''){
             params.name = searchParams.get('search');
         }
+
         try{
             setLoading(true);
             const arrayLugares = await ArrayEpisode.getLocations(params);
@@ -59,13 +60,17 @@ const Episodios = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        setSearchParams({ search: e.currentTarget.search.value.trim()})
-        setPage(1);
+        setSearchParams({ search: e.currentTarget.search.value.trim(), page: '1' })
+    }
+
+    const handleChangePage = (page: number) => {
+        const params = Object.fromEntries([...searchParams]);
+        setSearchParams({ ...params, page: page.toString() });
     }
 
     useEffect( ( ) => {
         fetchLugares();
-    },[page, searchParams])
+    },[searchParams])
 
     return ( 
         <>
@@ -84,7 +89,7 @@ const Episodios = () => {
         </Box>
         {
             episodios.results.length > 0 ?
-            <Paginacion page={page} setPage={setPage} countPage={countPage} >
+            <Paginacion page={ifNaN(searchParams.get('page'))} setPage={handleChangePage} countPage={countPage} >
                     <Grid container sx={{marginX: 'auto', maxWidth: { xs: '400px', sm: '400px', md: '800px', lg: '1200px'}, marginTop: 3}} >
 
                         
