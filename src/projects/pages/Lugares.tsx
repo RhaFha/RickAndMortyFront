@@ -32,7 +32,24 @@ const Lugares = () => {
             const arrayLugares = await ArrayLocation.getLocations(params);
             setLugares(arrayLugares);
             setCountPage(arrayLugares.info.pages);
-        }catch{
+        }catch(error){
+            if (error.response) {
+                // El servidor respondió con un estado diferente de 200
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                if(error.response.data.error){
+                    setError(error.response.data.error);
+                    setLugares(new ArrayLocation);
+                    setCountPage(0);
+                }
+              } else if (error.request) {
+                // La solicitud fue hecha pero no hubo respuesta
+                console.log(error.request);
+              } else {
+                // Algo sucedió en la configuración de la solicitud que provocó que se lanzara un error
+                console.log('Error', error.message);
+              }
 
         }finally{
             setLoading(false);
