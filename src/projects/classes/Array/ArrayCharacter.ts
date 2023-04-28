@@ -34,6 +34,38 @@ export default class ArrayCharacters {
         const respuesta = await instancia.get('', {
             params
         });
+
+        if (respuesta.data.results.length) {
+            const getEpisodio = await Promise.all(respuesta.data.results.map(p => {
+                const partes = p.episode[0].split('/');
+                return Character.getEpisode(Number(partes[partes.length - 1]));
+            }));
+
+            const newArray = respuesta.data.results.map((p: Character, i: number) => {
+                const episodePersonaje = new Character(
+                    p.id,
+                    p.name,
+                    p.status,
+                    p.species,
+                    p.type,
+                    p.gender,
+                    p.origin,
+                    p.location,
+                    p.image,
+                    p.episode,
+                    p.url,
+                    p.created,
+                    [getEpisodio[i]],
+                );
+
+                return episodePersonaje;
+            });
+
+            respuesta.data.results = newArray;
+        }
+
+
+
         return new ArrayCharacters(respuesta.data);
     }
 }
