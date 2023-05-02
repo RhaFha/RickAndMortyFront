@@ -4,11 +4,12 @@ import LocationDTO from "./DTOs/LocationDTO";
 import Episode from "../Episode/Episode";
 
 const instancia = new RickAndMortyClient('/character').getAxiosInstance();
+type Status = 'Alive' | 'Dead' | 'unknown';
 class Character {
 
     id: number;
     name: string;
-    status: string;
+    status: Status;
     species: string;
     type: string;
     gender: string;
@@ -23,7 +24,7 @@ class Character {
     constructor(
         _id: number = 0,
         _name: string = "",
-        _status: string = "",
+        _status: Status = "Alive",
         _species: string = "",
         _type: string = "",
         _gender: string = "",

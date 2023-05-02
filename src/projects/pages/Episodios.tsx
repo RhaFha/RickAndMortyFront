@@ -7,6 +7,7 @@ import ArrayEpisode from '../classes/Array/ArrayEpisode';
 import Paginacion from '../../components/Paginacion';
 import CardEpisodio from '../../components/CardEpisodio';
 import FindPageCharacterDTO from '../classes/Array/DTOs/FindPageCharacterDTO';
+import { AxiosError } from 'axios';
 
 const Episodios = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
@@ -33,24 +34,29 @@ const Episodios = () => {
             setEpisodios(arrayLugares);
             setCountPage(arrayLugares.info.pages);
         }catch(error){
+            
+            if( error instanceof AxiosError ){
 
-            if (error.response) {
-                // El servidor respondió con un estado diferente de 200
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-                if(error.response.data.error){
-                    setError(error.response.data.error);
-                    setEpisodios(new ArrayEpisode);
-                    setCountPage(0);
-                }
-              } else if (error.request) {
-                // La solicitud fue hecha pero no hubo respuesta
-                console.log(error.request);
-              } else {
-                // Algo sucedió en la configuración de la solicitud que provocó que se lanzara un error
-                console.log('Error', error.message);
-              }
+                if (error.response) {
+                    // El servidor respondió con un estado diferente de 200
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                    if(error.response?.data?.error){
+                        setError(error.response.data.error);
+                        setEpisodios(new ArrayEpisode);
+                        setCountPage(0);
+                    }
+                  } else if (error.request) {
+                    // La solicitud fue hecha pero no hubo respuesta
+                    console.log(error.request);
+                  } else {
+                    // Algo sucedió en la configuración de la solicitud que provocó que se lanzara un error
+                    console.log('Error', error.message);
+                  }
+
+            }
+            
 
         }finally{
             setLoading(false);
