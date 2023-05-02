@@ -10,22 +10,58 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Logo from '../../public/img/logo-2.png';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import PersonIcon from '@mui/icons-material/Person';
+import PlaceIcon from '@mui/icons-material/Place';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import Logo from '../img/logo-2.png';
 
-const pages = [{name: 'Personajes', href: '/personaje'}, {name: 'Lugares', href: '/lugar'}, {name:'Episodios', href: '/episodio'}];
+const pages = [{name: 'Personajes', href: '/personaje', icon: <PersonIcon />}, {name: 'Lugares', href: '/lugar', icon: <PlaceIcon />}, {name:'Episodios', href: '/episodio', icon: <FormatListBulletedIcon />}];
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 function NavBar() {
+  const [state, setState] = React.useState(false);
+  const toggleDrawer =
+    (open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setState(open);
+    };
+    const list = () => (
+      <Box
+        sx={{ width: 250 }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          {pages.map((pagina, index) => (
+            <ListItem key={pagina.name} disablePadding>
+              <ListItemButton component={Link} to={pagina.href} >
+                <ListItemIcon>
+                  {pagina.icon}
+                </ListItemIcon>
+                <ListItemText primary={pagina.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    );
+
   const theme = useTheme();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   return (
     <AppBar position="static">
@@ -58,35 +94,19 @@ function NavBar() {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={toggleDrawer(true)}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.name} >
-                    <Typography  textAlign="center" component={Link} to={page.href} sx={{ textDecoration: 'none', color: theme.palette.text.primary }} >{page.name}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            
+                  <Drawer
+                    anchor={'left'}
+                    open={state}
+                    onClose={toggleDrawer(false)}
+                  >
+                    {list()}
+                  </Drawer>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, width: '60px' }} component={Link} to='/' >
             <img src={Logo} alt='logo' style={{ width: '100%'}} />
@@ -116,8 +136,6 @@ function NavBar() {
               key={page.name}
               >
               <NavLink
-                
-                onClick={handleCloseNavMenu}
                 to={page.href}
                 style={({ isActive }) => {
                   return {
@@ -139,7 +157,11 @@ function NavBar() {
           <Box sx={{ flexGrow: 0, height: '40px', width: '40px' }} />
         </Toolbar>
       </Container>
+      
     </AppBar>
   );
 }
 export default NavBar;
+
+
+

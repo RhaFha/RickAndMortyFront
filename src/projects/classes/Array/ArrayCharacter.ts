@@ -36,7 +36,7 @@ export default class ArrayCharacters {
         });
 
         if (respuesta.data.results.length) {
-            const getEpisodio = await Promise.all(respuesta.data.results.map(p => {
+            const getEpisodio = await Promise.all(respuesta.data.results.map((p: Character) => {
                 const partes = p.episode[0].split('/');
                 return Character.getEpisode(Number(partes[partes.length - 1]));
             }));
