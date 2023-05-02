@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Character from "../projects/classes/Character/Character";
 import { STATUS_CHARACTER } from "../utils/constans";
 import styles from '../styles/Link.module.css';
-import defaultImage from '../../public/img/imageDefault.jpeg';
+import defaultImage from '../img/imageDefault.jpeg';
 
 const CardPersonaje: React.FC<IPropsCardPersonaje> = ({personaje, lugar = false}) => {
     const {id, name, image, status, species, location, seen } = personaje;
